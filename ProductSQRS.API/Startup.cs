@@ -14,6 +14,7 @@ using ProductSQRS.API.Data;
 using ProductSQRS.API.Entity;
 using ProductSQRS.API.Requitment;
 using ProductSQRS.API.SerVice;
+using ProductSQRS.API.SerVice.ExelSV;
 using ProductSQRS.API.SerVice.RequitmentSV;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace ProductSQRS.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-             
+            services.AddTransient<IExcelSerVice, ExcelSerVice>();
             services.AddTransient<IRequitmentSerVice, RequitmentSerVice>();
             services.AddTransient<IUserSerVice, UserSerVice>();
             services.AddDbContext<ApplicationDbContext>(options =>

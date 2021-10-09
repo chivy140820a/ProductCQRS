@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProductSQRS.ConnectAPI.CheckConnectAPI;
+using ProductSQRS.ConnectAPI.ExCnAPI;
 using ProductSQRS.ConnectAPI.ProductCnAPI;
 using ProductSQRS.ConnectAPI.UserCnAPI;
 using ProductSQRS.Data;
@@ -35,6 +36,7 @@ namespace ProductSQRS
             services.AddBlazoredSessionStorage();
             services.AddRazorPages();
             services.AddHttpClient();
+            services.AddTransient<IExcelConnectAPI, ExcelConnectAPI>();
             services.AddTransient<IProductConnectAPI,ProductConnectAPI>();
             services.AddTransient<ICheckConnectAPI, CheckConnectAPI>();
             services.AddTransient<IUserConnectAPI, UserConnectAPI>();

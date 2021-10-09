@@ -1,0 +1,23 @@
+﻿@page "/ProductDetail/{Id:int}"
+<table class="table">
+    <thead>
+        <tr>
+            <td>ProductId</td>
+            <td>Quantity</td>
+            <td>Common</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ListEventById)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.Quantity</td>
+                <td>@item.Common</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+
+}

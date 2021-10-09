@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductSQRS.API.Constant;
 using ProductSQRS.API.Data;
+using ProductSQRS.API.EventVMRequest;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +46,23 @@ namespace ProductSQRS.API.SQRS.ProductSQRS
                     list.Add(new Adjusted(item.ProductId, item.Quantity, "", item.Common));
                 }
             }
+            listEvents.Add(Id, list);
             return listEvents;
+        }
+        public async Task<List<EventViewModel>> GetByIdViewModel(int Id)
+        {
+            var list = await _context.ProductManagers.Where(x => x.ProductId == Id).ToListAsync();
+            var listVm = new List<EventViewModel>();
+            foreach(var item in list)
+            {
+                listVm.Add(new EventViewModel()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Common = item.Common
+                });
+            }
+            return listVm;
         }
         public async Task<Dictionary<int,IList<IEvent>>> GetAll()
         {

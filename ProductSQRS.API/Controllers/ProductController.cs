@@ -9,6 +9,7 @@ using static ProductSQRS.API.EventRequest.Event;
 using Microsoft.EntityFrameworkCore;
 using ProductSQRS.API.EventVMRequest;
 using ProductSQRS.API.EventVm;
+using ProductSQRS.API.Constant;
 
 namespace ProductSQRS.API.Controllers
 {
@@ -67,7 +68,44 @@ namespace ProductSQRS.API.Controllers
             var lists =  await product.GetDicById(Id);
             return Ok(lists);
         }
+        [HttpPost("GetByIdViewModel")]
+        public async Task<IActionResult> GetByIdViewModel([FromBody]int Id)
+        {
+            var res = new Repository(_context);
+            var list = await res.GetByIdViewModel(Id);
+            return Ok(list);
+        }
+
+        [HttpPost("GetAllDicById")]
+        public async Task<IActionResult> GetAllDicById([FromBody]int Id)
+        {
+            var res = new Repository(_context);
+            var list = await res.GetDicById(Id);
+            IList<IEvent> listEvents = new List<IEvent>();
+            listEvents = list[Id];
+            var listEventViewModel = new List<EventViewModel>();
+            foreach(var item in listEvents)
+            {
+                if(item is Recive)
+                {
+                    var itemdemo = (Recive)item;
+                    listEventViewModel.Add(new EventViewModel { ProductId = itemdemo.productid, Quantity = itemdemo.quantity, Common = Common.Recived });
+                }
+                if (item is Send)
+                {
+                    var itemdemo = (Send)item;
+                    listEventViewModel.Add(new EventViewModel {ProductId= itemdemo.productid,Quantity= itemdemo.quantity, Common= Common.Sended });
+                }
 
 
+                if (item is Adjusted)
+                {
+                    var itemdemo = (Adjusted)item;
+                    listEventViewModel.Add(new EventViewModel { ProductId = itemdemo.productid, Quantity = itemdemo.quantity, Common = Common.Ajuseded });
+                }
+            }
+            var listVm = listEventViewModel;
+            return Ok(listEvents);
+        }
     }
 }

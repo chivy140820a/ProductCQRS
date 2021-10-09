@@ -2,7 +2,9 @@
 <button @onclick="()=>CreateRecive()">CreateRecive</button>
 <button @onclick="()=>CreateSend()">CreateSend</button>
 <button @onclick="()=>CreateAdjusted()">CreateAdjusted</button>
-
+<EditForm Model="@product" OnSubmit="@OnSubmit">
+    <InputFile OnChange="@OnInputFileChange"></InputFile>
+</EditForm>
 @code {
 
 }

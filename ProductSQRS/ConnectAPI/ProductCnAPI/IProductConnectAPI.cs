@@ -15,6 +15,8 @@ namespace ProductSQRS.ConnectAPI.ProductCnAPI
         Task<bool> AddRecive(CreateRecive request);
         Task<bool> AddSend(CreateSend request);
         Task<bool> AddAdjusted(CreateAdjused request);
+        Task<List<EventViewModel>> GetAllById(int Id);
+         
     }
 
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using static ProductSQRS.API.EventRequest.Event;
 
 namespace ProductSQRS.ConnectAPI.ProductCnAPI
 {
@@ -17,10 +18,6 @@ namespace ProductSQRS.ConnectAPI.ProductCnAPI
         {
             _httpClient = httpClient;
         }
-       
-     
-      
-
         public async Task<List<Product>> GetAllProduct()
         {
             var list = await _httpClient.GetFromJsonAsync<List<Product>>("/api/Product/GetAllProduct");
@@ -51,6 +48,14 @@ namespace ProductSQRS.ConnectAPI.ProductCnAPI
         {
             var list = await _httpClient.PostAsJsonAsync("/api/Product/AddEventAdjusted", request);
             return list.IsSuccessStatusCode;
+        }
+
+        public async Task<List<EventViewModel>> GetAllById(int Id)
+        {
+            var list = await _httpClient.PostAsJsonAsync("/api/Product/GetByIdViewModel", Id);
+            var listRead = await list.Content.ReadAsStringAsync();
+            var read = JsonConvert.DeserializeObject<List<EventViewModel>>(listRead);
+            return read;
         }
     }
 }
